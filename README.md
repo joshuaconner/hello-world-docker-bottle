@@ -1,17 +1,29 @@
 # hello-world-docker-bottle
 A simple Python "hello world" server in Docker using bottle.
 
-### Usage
+### Running from the index.docker.io image
 This image exists in the index.docker.io registry already, so you can run it with:
 ```
+$ docker pull joshuaconner/hello-world-docker-bottle
 $ docker run -d -p 8080 joshuaconner/hello-world-docker-bottle
 ```
-This will map port 8080, which the server is listening on, to a dynamically allocated port on the host.
+This will map port 8080, which the server is listening on, to a dynamically allocated port on the host. You can see which port by running `docker ps`:
+```
+$ docker ps
+CONTAINER ID        IMAGE                                    COMMAND                CREATED             STATUS              PORTS                     NAMES
+e9b36d702141        joshuaconner/hello_world_bottle:latest   /usr/bin/python /hom   3 seconds ago       Up 2 seconds        0.0.0.0:49173->8080/tcp   kickass_archimedes
+```
+This shows that port 8080 on the container is mapped to port 49173 on the host. Thus, assuming `curl` is installed (if not, run `sudo apt-get install curl` first), you can do:
+```
+$ curl localhost:49173
+Hello World!
+```
 
 ##### Building from source
 You can also build from source using:
 ```
-docker build -t [pick whatever tag name you want] .
+$ docker build -t you/your_tag_name /PATH/TO/THIS/REPOSITORY
+$ docker run -d -p 8080 you/your_tag_name
 ```
 
 ##### Linking to another container
